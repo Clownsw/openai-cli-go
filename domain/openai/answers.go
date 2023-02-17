@@ -26,11 +26,17 @@ type Usage struct {
 	TotalTokens      int64 `json:"total_tokens"`
 }
 
+type Error struct {
+	Message string `json:"message"`
+	Type    string `json:"type"`
+}
+
 type Answers struct {
-	Id      string   `json:"id"`
-	Object  string   `json:"object"`
-	Created int64    `json:"created"`
-	Model   string   `json:"model"`
-	Choices []Choice `json:"choices"`
-	Usage   Usage    `json:"usage"`
+	Id      string    `json:"id"`
+	Object  string    `json:"object"`
+	Created int64     `json:"created"`
+	Model   string    `json:"model"`
+	Choices []*Choice `json:"choices"`
+	Usage   *Usage    `json:"usage"`
+	Error   *Error    `json:"error"`
 }
