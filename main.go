@@ -1,7 +1,6 @@
 package main
 
 import (
-	"fmt"
 	"openai-cli-go/client"
 	"openai-cli-go/config"
 	"os"
@@ -10,27 +9,21 @@ import (
 
 func main() {
 	args := os.Args
-	if len(args) < 2 {
+	if len(args) < 3 {
 		panic("not found query param!")
 	}
-	
+
 	var query strings.Builder
 
-	for i := 1; i < len(args); i++ {
+	for i := 2; i < len(args); i++ {
 		query.WriteString(args[i])
 	}
 
 	openAiInfo := config.NewOpenAIInfo("application.yml")
-	openAIClient := client.NewOpenAIClient(openAiInfo)
-	answers, err := openAIClient.Query(query.String())
-
+	c := client.NewClient(args[1], openAiInfo)
+	result, err := c.Query(query.String())
 	if err != nil {
 		panic(err)
 	}
-
-	if answers.Error != nil {
-		panic(answers.Error.Message)
-	}
-
-	fmt.Println(answers.Choices[0].ToText())
+	println(strings.TrimSpace(result))
 }
